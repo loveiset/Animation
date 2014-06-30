@@ -23,6 +23,18 @@ public class PlayerCollisions : MonoBehaviour {
     }
      */
 
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.collider == GameObject.Find("mat").collider)
+        {
+            CoconutThrow.canThrow = true;
+        }
+        else
+        {
+            CoconutThrow.canThrow = false;
+        }
+    }
+
     void OpenDoor()
     {
         doorIsOpen = true;
