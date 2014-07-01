@@ -25,13 +25,25 @@ public class PlayerCollisions : MonoBehaviour {
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        GameObject crosshairObj = GameObject.Find("Crosshair");
+        GUITexture crosshair = crosshairObj.GetComponent<GUITexture>();
         if (hit.collider == GameObject.Find("mat").collider)
         {
             CoconutThrow.canThrow = true;
+            crosshair.enabled = true;
+            TextHints.textOn = true;
+            TextHints.message = "Knock down all 3 at once to win a battery";
+            Vector3 lastPosition = GameObject.Find("TextHit GUI").transform.position;
+            lastPosition.y = 0.2f;
+            GameObject.Find("TextHit GUI").transform.position = lastPosition;
         }
         else
         {
             CoconutThrow.canThrow = false;
+            crosshair.enabled = false;
+            Vector3 lastPosition = GameObject.Find("TextHit GUI").transform.position;
+            lastPosition.y = 0.5f;
+            GameObject.Find("TextHit GUI").transform.position = lastPosition;
         }
     }
 

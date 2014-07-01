@@ -15,6 +15,7 @@ public class CoconutCollision : MonoBehaviour {
             audio.PlayOneShot(hitSound);
             targetRoot.animation.Play("down");
             beenHit = true;
+            CoconutWin.targets++;
         }
     }
 
@@ -35,6 +36,7 @@ public class CoconutCollision : MonoBehaviour {
             audio.PlayOneShot(resetSound);
             targetRoot.animation.Play("up");
             beenHit = false;
+            CoconutWin.targets--;
             timer = 0.0f;
         }
 	}
