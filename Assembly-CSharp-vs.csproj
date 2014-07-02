@@ -52,6 +52,7 @@
      <Compile Include="Assets\Scripts\CoconutThrow.cs" />
      <Compile Include="Assets\Scripts\CoconutTidy.cs" />
      <Compile Include="Assets\Scripts\CoconutWin.cs" />
+     <Compile Include="Assets\Scripts\MainMenuBtns.cs" />
      <Compile Include="Assets\Scripts\PlayerCollisions.cs" />
      <Compile Include="Assets\Scripts\RotateObject.cs" />
      <Compile Include="Assets\Scripts\TextHints.cs" />

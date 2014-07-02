@@ -3,8 +3,10 @@ using System.Collections;
 
 public class PlayerCollisions : MonoBehaviour {
     bool doorIsOpen = false;
+    bool haveMatches = false;
     float doorTimer = 0.0f;
     GameObject currentDoor;
+    public GameObject matchGUI;
 
     public float doorOpenTime = 3.0f;
     public AudioClip doorOpenSound;
@@ -25,6 +27,20 @@ public class PlayerCollisions : MonoBehaviour {
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        if (hit.collider.gameObject == GameObject.Find("campfire"))
+        {
+            if (haveMatches)
+            {
+                haveMatches = false;
+                LightFire();
+            }
+            else
+            {
+                TextHints.textOn = true;
+                TextHints.message = "I need some matches to light this camp fire..";
+            }
+        }
+
         GameObject crosshairObj = GameObject.Find("Crosshair");
         GUITexture crosshair = crosshairObj.GetComponent<GUITexture>();
         if (hit.collider == GameObject.Find("mat").collider)
@@ -45,6 +61,23 @@ public class PlayerCollisions : MonoBehaviour {
             lastPosition.y = 0.5f;
             GameObject.Find("TextHit GUI").transform.position = lastPosition;
         }
+    }
+
+    void LightFire()
+    {
+        GameObject campfire = GameObject.Find("campfire");
+        AudioSource campSound = campfire.GetComponent<AudioSource>();
+        campSound.Play();
+
+        GameObject flames = GameObject.Find("FireSystem");
+        ParticleEmitter flameEmitter = flames.GetComponent<ParticleEmitter>();
+        flameEmitter.emit = true;
+
+        GameObject smoke = GameObject.Find("SmokeSystem");
+        ParticleEmitter smokeEmitter = smoke.GetComponent<ParticleEmitter>();
+        smokeEmitter.emit = true;
+
+        Destroy(GameObject.Find("MatchGUIPrefab"));
     }
 
     void OpenDoor()
@@ -70,6 +103,15 @@ public class PlayerCollisions : MonoBehaviour {
             BatteryCollect.charge++;
             audio.PlayOneShot(batteryCollect);
             Destroy(collisionInfo.gameObject);
+        }
+        if (collisionInfo.gameObject.name == "matchbox")
+        {
+            Destroy(collisionInfo.gameObject);
+            haveMatches = true;
+            audio.PlayOneShot(batteryCollect);
+            GameObject matchGUIobj = Instantiate(matchGUI, new Vector3(0.15f, 0.1f, 0.0f), transform.rotation) as GameObject;
+            matchGUIobj.name = matchGUI.name;
+            Debug.Log(matchGUI.name);
         }
     }
 
