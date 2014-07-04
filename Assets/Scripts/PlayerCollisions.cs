@@ -32,7 +32,7 @@ public class PlayerCollisions : MonoBehaviour {
             if (haveMatches)
             {
                 haveMatches = false;
-                LightFire();
+                StartCoroutine(LightFire());
             }
             else
             {
@@ -63,7 +63,7 @@ public class PlayerCollisions : MonoBehaviour {
         }
     }
 
-    void LightFire()
+    IEnumerator LightFire()
     {
         GameObject campfire = GameObject.Find("campfire");
         AudioSource campSound = campfire.GetComponent<AudioSource>();
@@ -78,6 +78,11 @@ public class PlayerCollisions : MonoBehaviour {
         smokeEmitter.emit = true;
 
         Destroy(GameObject.Find("MatchGUIPrefab"));
+
+        TextHints.textOn = true;
+        TextHints.message = "You lit the fire, you'll survive, well done!";
+        yield return new WaitForSeconds(5.0f);
+        Application.LoadLevel("Menu");
     }
 
     void OpenDoor()
